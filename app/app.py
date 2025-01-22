@@ -4,6 +4,8 @@ import altair as alt
 import pandas as pd
 from urllib.error import URLError
 
+HOPSWORKS_API_KEY = st.secrets("api_key")
+
 # Cache data fetching to optimize app performance
 # Streamlit app interface
 st.write("## Air Quality Index (AQI) Predictions")
@@ -28,7 +30,7 @@ def download_model(name="air_quality_xgboost_model", version=1):
     return saved_model_dir
 
 try:
-    project = hopsworks.login()
+    project = hopsworks.login(api_key_value=HOPSWORKS_API_KEY)
     fs = project.get_feature_store()
     st.write("✅ Logged in successfully!")
 
