@@ -29,7 +29,7 @@ def download_model(name="air_quality_xgboost_model", version=1):
     return saved_model_dir
 
 try:
-    project = hopsworks.login(api_key_value=st.secrets("api_key"))
+    project = hopsworks.login(api_key_value=st.secrets["api_key"])
     fs = project.get_feature_store()
     st.write("✅ Logged in successfully!")
 
