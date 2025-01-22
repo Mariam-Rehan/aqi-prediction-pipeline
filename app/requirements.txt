@@ -3,7 +3,7 @@ requests-cache==1.2.1
 retry-requests==2.0.0
 numpy==1.26.4
 pandas==2.2.2
-hopsworks[python]
+hopsworks[python]==4.1.*
 streamlit
 joblib
 seaborn
