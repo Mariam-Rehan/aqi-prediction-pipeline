@@ -11,7 +11,7 @@ This dashboard displays the current Air Quality Index (AQI) and predictions for 
 """)
 
 api_key = st.secrets["hopsworks"]["api_key"]
-project = hopsworks.login(api_key=api_key)
+project = hopsworks.login(api_key_value=api_key)
 
 # Get Feature Store
 fs = project.get_feature_store()
