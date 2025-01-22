@@ -15,7 +15,7 @@ def get_data():
     fs = project.get_feature_store()
 
     # Get the Feature Group for your AQI predictions
-    fg = fs.get_feature_group("aqi_predictions_feature_group")  # Replace with your feature group name
+    fg = fs.get_feature_group("aqi_features")  # Replace with your feature group name
     return fg.read(online=True)
 
 try:
@@ -29,10 +29,10 @@ try:
     # Display current AQI and predictions for the next 3 days
     current_aqi = df.iloc[-4:]  # Assuming the last 4 rows contain the latest predictions
     st.write("### Current AQI:")
-    st.metric(label="AQI Level", value=current_aqi.iloc[0]["aqi"], delta="")
+    st.metric(label="AQI Level", value=current_aqi.iloc[0]["main_aqi"], delta="")
 
     st.write("### Predicted AQI for the Next 3 Days:")
-    st.bar_chart(data=current_aqi.set_index("date"), y="aqi", use_container_width=True)
+    st.bar_chart(data=current_aqi.set_index("date"), y="main_aqi", use_container_width=True)
 
 except URLError as e:
     # Handle connection issues
