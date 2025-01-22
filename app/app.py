@@ -28,10 +28,7 @@ def download_model(name="air_quality_xgboost_model", version=1):
     return saved_model_dir
 
 try:
-    project = hopsworks.login(
-        project="aqi_prediction_mariam",  # Replace with your Hopsworks project name
-        api_key_value="fGaRronKJ6ZMI6K0.4iXEy9yDd6VkxOypTtfseQQ1Ip3a9sREDzgx6Qnezj50mhqfD7DrzfBlpQPMFAuM",  # Fetch API key from Streamlit secrets
-    )
+    project = hopsworks.login()
     fs = project.get_feature_store()
     st.write("✅ Logged in successfully!")
 
