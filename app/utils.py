@@ -156,3 +156,14 @@ def preprocess_and_predict(forecast_df, model, feature_group):
 
     forecast_df["predicted_aqi"] = predicted_aqi
     return forecast_df
+
+def get_model():
+      import hopsworks
+      # connect with Hopsworks
+      project = hopsworks.login(api_key_value = "fGaRronKJ6ZMI6K0.4iXEy9yDd6VkxOypTtfseQQ1Ip3a9sREDzgx6Qnezj50mhqfD7DrzfBlpQPMFAuM")
+      # get Hopsworks Model Registry
+      mr = project.get_model_registry()
+      # get model object
+      model = mr.get_model("aqi_xgboost_model", version=1)
+      return model
+
