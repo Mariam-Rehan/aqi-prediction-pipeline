@@ -155,6 +155,27 @@ def preprocess_and_predict(forecast_df, model, feature_group):
             forecast_df.loc[i + 1, "aqi_lag_3"] = forecast_df.loc[i, "aqi_lag_2"]
 
     forecast_df["predicted_aqi"] = predicted_aqi
+    forecast_start_date = datetime.utcnow()
+
+      # Round to the nearest hour by checking if the current minute is >= 30
+    if forecast_start_date.minute >= 30:
+          forecast_start_date = forecast_start_date + timedelta(hours=1)
+
+     # Set minutes, seconds, and microseconds to 0
+   forecast_start_date = forecast_start_date.replace(minute=0, second=0, microsecond=0)
+    # Recreate the date range for the predicted AQI
+    date_range = pd.date_range(
+          start=forecast_start_date, 
+          periods=len(forecast_df),  # Number of rows in the predicted_df
+          freq='H'  # Hourly frequency since predictions are hourly
+    )
+
+      # Add the date column back to the DataFrame
+    forecast_df["date"] = date_range
+    forecast_df["predicted_aqi"] = forecast_df["predicted_aqi"].round()
+
+    # If AQI levels should stay within the range [1, 5], ensure the values are clipped
+    forecast_df["predicted_aqi"] = forecast_df["predicted_aqi"].clip(1, 5)
     return forecast_df
 
 def get_model():
