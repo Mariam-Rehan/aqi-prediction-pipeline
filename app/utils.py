@@ -85,7 +85,7 @@ def get_recent_aqi(feature_group):
     latest_data = latest_data[['main_aqi','date']]
     return pd.DataFrame(latest_data)
 
-def preprocess_data(forecast_df, featuregroup):
+def preprocess_data(forecast_df, feature_group):
     df = feature_group.read()
     df.sort_values(by = 'date', inplace=True)
 
