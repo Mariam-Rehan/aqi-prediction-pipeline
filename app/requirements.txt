@@ -1,6 +1,8 @@
 hopsworks==3.2.*
 numpy==1.26.4
 pandas
+matplotlib
+seaborn
 geopy
 python-dotenv
 streamlit
