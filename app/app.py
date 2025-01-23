@@ -20,11 +20,11 @@ current_aqi_value = current_aqi['main_aqi'].iloc[-1]  # Get the latest AQI value
 st.write(f"### Current AQI: {current_aqi_value}")
 if current_aqi_value <= 2:
     st.write("Air quality is **Good**. You're all set!")
-elif 51 <= current_aqi_value <= 3:
+elif current_aqi_value == 3:
     st.write("Air quality is **Moderate**. It may not be a problem for most people.")
-elif 101 <= current_aqi_value <= 4:
+elif current_aqi_value == 4:
     st.write("Air quality is **Unhealthy for Sensitive Groups**. Those with respiratory issues should limit outdoor activities.")
-elif 151 <= current_aqi_value <= 5:
+elif current_aqi_value == 5:
     st.write("Air quality is **Unhealthy**. Everyone may begin to experience health effects.")
 
 # Display predicted AQI for the next 3 days
