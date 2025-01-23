@@ -31,6 +31,7 @@ st.write("### Predicted AQI for the next 3 days (Hourly)")
 # Extract data for the next 3 days
 forecast_df = generate_prediction_data()
 forecast_df = preprocess_data(forecast_df, feature_group)
+xgb_model = get_model()
 prediction_df = preprocess_and_predict(forecast_df, xgb_model, feature_group)
 
 prediction_df['date'] = pd.to_datetime(prediction_df['date'])
