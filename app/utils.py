@@ -162,7 +162,7 @@ def preprocess_and_predict(forecast_df, model, feature_group):
           forecast_start_date = forecast_start_date + timedelta(hours=1)
 
      # Set minutes, seconds, and microseconds to 0
-   forecast_start_date = forecast_start_date.replace(minute=0, second=0, microsecond=0)
+    forecast_start_date = forecast_start_date.replace(minute=0, second=0, microsecond=0)
     # Recreate the date range for the predicted AQI
     date_range = pd.date_range(
           start=forecast_start_date, 
