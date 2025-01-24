@@ -21,3 +21,4 @@ openpyxl
 requests-cache
 retry_requests
 openmeteo-requests
+xgboost
