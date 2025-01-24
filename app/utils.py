@@ -64,7 +64,7 @@ def generate_prediction_data():
     hourly_data["wind_gusts_10m"] = hourly_wind_gusts_10m
 
     hourly_data['date'] = pd.to_datetime(hourly_data['date'])
-    hourly_data['day_of_week'] = hourly_data['date'].dt.dayofweek  # 0=Monday, 6=Sunday
+    hourly_data['day_of_week'] = hourly_data['date'].datetime.dt.dayofweek  # 0=Monday, 6=Sunday
     hourly_data['month'] = hourly_data['date'].dt.month
     hourly_data['day_of_year'] = hourly_data['date'].dt.dayofyear
     hourly_data['week_of_year'] = hourly_data['date'].dt.isocalendar().week
