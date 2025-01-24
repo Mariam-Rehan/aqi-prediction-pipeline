@@ -23,6 +23,9 @@ jobs:
         python -m pip install --upgrade pip
         pip install -r requirements.txt
 
+    - name: Install Hopsworks
+      run: pip install -U 'hopsworks[python]'
+
     - name: Run Training Pipeline
       run: |
-        python scripts/Final_Hopsworks_feature_pipeline.ipynb
+        python scripts/final_hopsworks_feature_pipeline.py
