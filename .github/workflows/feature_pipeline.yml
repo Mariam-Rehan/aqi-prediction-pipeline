@@ -24,4 +24,4 @@ jobs:
         pip install -r requirements.txt
 
     - name: execute Feature Pipeline
-      run: ./scripts/run-feature-pipeline.sh
+      run: ./scripts/final_hopsworks_feature_pipeline.py
