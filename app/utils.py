@@ -85,7 +85,7 @@ def get_recent_aqi(feature_group):
     latest_data = latest_data[['main_aqi','date']]
     return pd.DataFrame(latest_data)
 
-def preprocess_data(forecast_df, feature_group):
+def preprocess_data(forecast_df, featuregroup):
     df = feature_group.read()
     df.sort_values(by = 'date', inplace=True)
 
@@ -142,7 +142,7 @@ def preprocess_and_predict(forecast_df, model, feature_group):
         input_features = input_features.values.reshape(1, -1)  # Ensure proper 2D shape
 
         # Debug input dimensions
-        print(f"Predicting for row {i} - Input shape: {input_features.shape}, Model expects: {model.n_features_in_}")
+        #print(f"Predicting for row {i} - Input shape: {input_features.shape}, Model expects: {model.n_features_in_}")
         
         # Predict AQI for the current hour
         predicted_value = model.predict(input_features)[0]
@@ -155,36 +155,4 @@ def preprocess_and_predict(forecast_df, model, feature_group):
             forecast_df.loc[i + 1, "aqi_lag_3"] = forecast_df.loc[i, "aqi_lag_2"]
 
     forecast_df["predicted_aqi"] = predicted_aqi
-    forecast_start_date = datetime.utcnow()
-
-      # Round to the nearest hour by checking if the current minute is >= 30
-    if forecast_start_date.minute >= 30:
-          forecast_start_date = forecast_start_date + timedelta(hours=1)
-
-     # Set minutes, seconds, and microseconds to 0
-    forecast_start_date = forecast_start_date.replace(minute=0, second=0, microsecond=0)
-    # Recreate the date range for the predicted AQI
-    date_range = pd.date_range(
-          start=forecast_start_date, 
-          periods=len(forecast_df),  # Number of rows in the predicted_df
-          freq='H'  # Hourly frequency since predictions are hourly
-    )
-
-      # Add the date column back to the DataFrame
-    forecast_df["date"] = date_range
-    forecast_df["predicted_aqi"] = forecast_df["predicted_aqi"].round()
-
-    # If AQI levels should stay within the range [1, 5], ensure the values are clipped
-    forecast_df["predicted_aqi"] = forecast_df["predicted_aqi"].clip(1, 5)
     return forecast_df
-
-def get_model():
-      import hopsworks
-      # connect with Hopsworks
-      project = hopsworks.login(api_key_value = "fGaRronKJ6ZMI6K0.4iXEy9yDd6VkxOypTtfseQQ1Ip3a9sREDzgx6Qnezj50mhqfD7DrzfBlpQPMFAuM")
-      # get Hopsworks Model Registry
-      mr = project.get_model_registry()
-      # get model object
-      model = mr.get_model("aqi_xgboost_model", version=1)
-      return model
-
