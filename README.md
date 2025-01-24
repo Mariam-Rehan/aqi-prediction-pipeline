@@ -55,12 +55,12 @@ Access the app on the cloud: https://aqi-prediction-mariam.streamlit.app/
 ### Steps
 1. Clone this repository:
    ```bash
-   git clone https://github.com/<your-username>/air-quality-prediction.git
+   git clone https://github.com/Mariam-Rehan/aqi-prediction-pipeline.git
    ```
 
 2. Navigate to the project directory:
    ```bash
-   cd air-quality-prediction
+   cd aqi-prediction-pipeline
    ```
 
 3. Install the required dependencies:
@@ -79,12 +79,12 @@ Access the app on the cloud: https://aqi-prediction-mariam.streamlit.app/
 ### Running the Pipelines
 1. **Feature Pipeline:**
    ```bash
-   python scripts/feature_pipeline.py
+   python scripts/Final_Training_Pipeline.ipynb
    ```
 
 2. **Training Pipeline:**
    ```bash
-   python scripts/train_model.py
+   python scripts/Final_Hopsworks_feature_pipeline.ipynb
    ```
 
 ### Starting the Dashboard
