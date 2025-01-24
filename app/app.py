@@ -8,7 +8,7 @@ import os
 # Display a title
 st.title("Real-time AQI Forecast")
 os.environ["api_key"] = "fGaRronKJ6ZMI6K0.4iXEy9yDd6VkxOypTtfseQQ1Ip3a9sREDzgx6Qnezj50mhqfD7DrzfBlpQPMFAuM"
-"
+
 api_key_value = st.secrets["api_key"]
 
 # Log in to Hopsworks using the API key
