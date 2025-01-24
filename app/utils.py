@@ -62,13 +62,6 @@ def generate_prediction_data():
     hourly_data["wind_speed_10m"] = hourly_wind_speed_10m
     hourly_data["wind_direction_10m"] = hourly_wind_direction_10m
     hourly_data["wind_gusts_10m"] = hourly_wind_gusts_10m
-    #hourly_data['date'] = pd.to_datetime(hourly_data['date'])
-    #hourly_data['day_of_week'] = hourly_data['date'].datetime.dt.dayofweek  # 0=Monday, 6=Sunday
-    #hourly_data['month'] = hourly_data['date'].dt.month
-    #hourly_data['day_of_year'] = hourly_data['date'].dt.dayofyear
-    #hourly_data['week_of_year'] = hourly_data['date'].dt.isocalendar().week
-    #hourly_data['is_weekend'] = hourly_data['day_of_week'].apply(lambda x: 1 if x >= 5 else 0)
-    #hourly_data['hour'] = hourly_data['date'].dt.hour
 
     forecast_df = pd.DataFrame(data = hourly_data)
     for lag in range(1, 4):  # Create 3 lags
@@ -118,7 +111,37 @@ def preprocess_data(forecast_df, feature_group):
     return forecast_df
 
 def preprocess_and_predict(forecast_df, model, feature_group):
-    # Get recent AQI data
+    import pandas as pd
+      # Define the schema for the input data
+    input_schema = {
+          'temperature_2m': 'float32',
+          'relative_humidity_2m': 'float32',
+          'precipitation': 'float32',
+          'rain': 'float32',
+          'pressure_msl': 'float32',
+          'surface_pressure': 'float32',
+          'wind_speed_10m': 'float32',
+          'wind_direction_10m': 'float32',
+          'wind_gusts_10m': 'float32',
+          'day_of_week': 'int32',
+          'month': 'int32',
+          'day_of_year': 'int32',
+          'week_of_year': 'int64',
+          'is_weekend': 'int64',
+          'hour': 'int32',
+          'aqi_lag_1': 'float64',
+          'temp_lag_1': 'float32',
+          'aqi_lag_2': 'float64',
+          'temp_lag_2': 'float32',
+          'aqi_lag_3': 'float64',
+          'temp_lag_3': 'float32'
+    }
+      
+      # Create an empty DataFrame with the specified schema
+    X_train = pd.DataFrame({
+      column: pd.Series(dtype=dtype) for column, dtype in input_schema.items()
+    })
+      # Get recent AQI data
     recent_aqi = get_recent_aqi(feature_group)
     if len(recent_aqi) < 3:
         raise ValueError("Not enough recent AQI data to populate lag values.")
@@ -155,16 +178,42 @@ def preprocess_and_predict(forecast_df, model, feature_group):
             forecast_df.loc[i + 1, "aqi_lag_3"] = forecast_df.loc[i, "aqi_lag_2"]
 
     forecast_df["predicted_aqi"] = predicted_aqi
+    forecast_start_date = datetime.utcnow()
+
+    if forecast_start_date.minute >= 30:
+        forecast_start_date = forecast_start_date + timedelta(hours=1)
+
+    # Set minutes, seconds, and microseconds to 0
+    forecast_start_date = forecast_start_date.replace(minute=0, second=0, microsecond=0)
+    # Recreate the date range for the predicted AQI
+    date_range = pd.date_range(
+        start=forecast_start_date, 
+        periods=len(forecast_df),  # Number of rows in the predicted_df
+        freq='H'  # Hourly frequency since predictions are hourly
+    )
+
+    # Add the date column back to the DataFrame
+    forecast_df["date"] = date_range
+    forecast_df["predicted_aqi"] = forecast_df["predicted_aqi"].round()
+
+    # If AQI levels should stay within the range [1, 5], ensure the values are clipped
+    forecast_df["predicted_aqi"] = forecast_df["predicted_aqi"].clip(1, 5)
     return forecast_df
 
 def get_model():
-      import hopsworks
-      project = hopsworks.login(api_key_value = "fGaRronKJ6ZMI6K0.4iXEy9yDd6VkxOypTtfseQQ1Ip3a9sREDzgx6Qnezj50mhqfD7DrzfBlpQPMFAuM")
-      # get Hopsworks Model Registry
-      mr = project.get_model_registry() 
-      # get model object
-      model = mr.get_model("aqi_xgboost_model", version=2)
-      return model
+    import hopsworks
+    import xgboost as xgb  # Import the library to load the model
+	
+    # Log in to Hopsworks
+    project = hopsworks.login()
+    # Get Hopsworks Model Registry
+    mr = project.get_model_registry() 
+    # Fetch the model metadata
+    model_meta = mr.get_model("aqi_xgboost_model", version=2)
+    saved_model_dir = model_meta.download()
+
+    pipeline = joblib.load(saved_model_dir + "/xgboost_pipeline.pkl")
+    return pipeline
 
 def get_feature_store():
       project = hopsworks.login(api_key_value = "fGaRronKJ6ZMI6K0.4iXEy9yDd6VkxOypTtfseQQ1Ip3a9sREDzgx6Qnezj50mhqfD7DrzfBlpQPMFAuM")      
