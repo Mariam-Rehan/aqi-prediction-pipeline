@@ -23,5 +23,8 @@ jobs:
         python -m pip install --upgrade pip
         pip install -r requirements.txt
 
+    - name: Install Hopsworks
+      run: pip install -U 'hopsworks[python]'
+
     - name: Execute Feature Pipeline
       run: python scripts/final_hopsworks_feature_pipeline.py
