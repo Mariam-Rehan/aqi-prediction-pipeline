@@ -173,5 +173,5 @@ def get_feature_store():
       feature_group = fs.get_or_create_feature_group(
           name="aqi_weather_features",
           version=2
-      ))
+      )
       return feature_group
