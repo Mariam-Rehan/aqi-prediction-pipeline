@@ -2,7 +2,7 @@ import streamlit as st
 import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
-from utils import generate_prediction_data, preprocess_data, preprocess_and_predict, get_model
+from utils import generate_prediction_data, preprocess_data, preprocess_and_predict, get_model, get_recent_aqi
 import hopsworks
 import os
 # Display a title
