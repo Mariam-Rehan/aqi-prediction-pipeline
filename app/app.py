@@ -4,13 +4,15 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 from utils import generate_prediction_data, preprocess_data, preprocess_and_predict, get_model
 import hopsworks
+import os
 # Display a title
 st.title("Real-time AQI Forecast")
-
+os.environ["api_key"] = "fGaRronKJ6ZMI6K0.4iXEy9yDd6VkxOypTtfseQQ1Ip3a9sREDzgx6Qnezj50mhqfD7DrzfBlpQPMFAuM"
+"
 api_key_value = st.secrets["api_key"]
 
 # Log in to Hopsworks using the API key
-project = hopsworks.login(api_key_value=api_key_value)
+project = hopsworks.login()
 fs = project.get_feature_store()
 feature_group = fs.get_or_create_feature_group(
     name="aqi_weather_features",
