@@ -14,7 +14,7 @@ This project leverages machine learning to predict the Air Quality Index (AQI) f
 
 ---
 
-##Streamlit App
+## Streamlit App
 
 The Streamlit app provides an interactive way to view AQI predictions.
 
