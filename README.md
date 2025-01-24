@@ -14,6 +14,16 @@ This project leverages machine learning to predict the Air Quality Index (AQI) f
 
 ---
 
+##Streamlit App
+
+The Streamlit app provides an interactive way to view AQI predictions.
+
+**Live Demo**
+
+Access the app on the cloud: https://aqi-prediction-mariam.streamlit.app/
+
+---
+
 ## Project Architecture
 1. **Data Ingestion:**
    - Fetches hourly weather and AQI data from external APIs.
