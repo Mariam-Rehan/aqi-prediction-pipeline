@@ -13,7 +13,7 @@ st.title("Real-time AQI Forecast")
 #api_key = st.secrets["hopsworks"]["api_key"]
 #project = hopsworks.login(api_key_value=api_key)
 
-project = hopsworks.login(api_key_value=st.secrets.api_key)
+project = hopsworks.login(project = "aqi_prediction_mariam", api_key_value = "fGaRronKJ6ZMI6K0.4iXEy9yDd6VkxOypTtfseQQ1Ip3a9sREDzgx6Qnezj50mhqfD7DrzfBlpQPMFAuM")
 fs = project.get_feature_store()
 feature_group = fs.get_or_create_feature_group(
     name="aqi_weather_features",
