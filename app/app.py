@@ -2,17 +2,12 @@ import streamlit as st
 import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
-from utils import generate_prediction_data, preprocess_data, preprocess_and_predict, get_model
+from utils import generate_prediction_data, preprocess_data, preprocess_and_predict, get_model, get_feature_group()
 import hopsworks
 # Display a title
 st.title("Real-time AQI Forecast")
 
-project = hopsworks.login(api_key_value = "fGaRronKJ6ZMI6K0.4iXEy9yDd6VkxOypTtfseQQ1Ip3a9sREDzgx6Qnezj50mhqfD7DrzfBlpQPMFAuM")
-fs = project.get_feature_store()
-feature_group = fs.get_or_create_feature_group(
-    name="aqi_weather_features",
-    version=2
-)
+feature_group = get_feature_group()
 
 # Function to display the current AQI
 current_aqi = get_recent_aqi(feature_group)  # Assuming you have this function
