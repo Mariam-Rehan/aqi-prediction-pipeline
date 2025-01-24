@@ -23,6 +23,5 @@ jobs:
         python -m pip install --upgrade pip
         pip install -r requirements.txt
 
-    - name: Run Feature Pipeline
-      run: |
-        python scripts/Final_Training_Pipeline.ipynb
+    - name: execute Feature Pipeline
+      run: ./scripts/run-feature-pipeline.sh
