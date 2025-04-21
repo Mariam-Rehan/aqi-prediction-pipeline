@@ -2,7 +2,7 @@
 
 import hopsworks
 
-project = hopsworks.login(api_key_value = "fGaRronKJ6ZMI6K0.4iXEy9yDd6VkxOypTtfseQQ1Ip3a9sREDzgx6Qnezj50mhqfD7DrzfBlpQPMFAuM")
+project = hopsworks.login(api_key_value = "HOPSWORKS_API_KEY")
 fs = project.get_feature_store()
 
 from sklearn.ensemble import RandomForestRegressor
