@@ -1,2 +1,2 @@
-export HOPSWORKS_API_KEY = "fGaRronKJ6ZMI6K0.4iXEy9yDd6VkxOypTtfseQQ1Ip3a9sREDzgx6Qnezj50mhqfD7DrzfBlpQPMFAuM"
-export Featurestoreapi = "fGaRronKJ6ZMI6K0.4iXEy9yDd6VkxOypTtfseQQ1Ip3a9sREDzgx6Qnezj50mhqfD7DrzfBlpQPMFAuM"
+export HOPSWORKS_API_KEY = ""
+export Featurestoreapi = ""
